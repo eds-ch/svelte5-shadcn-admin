@@ -1,0 +1,42 @@
+node_modules
+
+# Paraglide (generated)
+/src/lib/paraglide
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+/temp/
+
+# AI / planning context
+CLAUDE.md
+/.planning/
+/docs/
+/.claude/
+
+# Reference materials
+/reference/
+
+# IDE
+.vscode/
+
+# Playwright MCP
+.playwright-mcp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*

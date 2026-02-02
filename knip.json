@@ -1,0 +1,15 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"entry": ["src/hooks.ts", "src/lib/themes/generate-presets.ts"],
+	"ignore": [
+		"reference/**",
+		"docs/**",
+		"temp/**",
+		"src/lib/paraglide/**",
+		"src/paraglide/**",
+		"src/lib/index.ts"
+	],
+	"compilers": {
+		"svelte": "(text) => [...text.matchAll(/<script[^>]*>([\\s\\S]*?)<\\/script>/g)].map(m => m[1]).join('\\n')"
+	}
+}

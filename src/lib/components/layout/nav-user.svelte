@@ -1,0 +1,112 @@
+<script lang="ts">
+	import * as Sidebar from '$lib/components/ui/sidebar';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import * as Avatar from '$lib/components/ui/avatar';
+	import ChevronsUpDown from '@lucide/svelte/icons/chevrons-up-down';
+	import BadgeCheck from '@lucide/svelte/icons/badge-check';
+	import Bell from '@lucide/svelte/icons/bell';
+	import CreditCard from '@lucide/svelte/icons/credit-card';
+	import LogOut from '@lucide/svelte/icons/log-out';
+	import Sparkles from '@lucide/svelte/icons/sparkles';
+	import SignOutDialog from './sign-out-dialog.svelte';
+	import { localizeHref } from '$lib/paraglide/runtime.js';
+	import { m } from '$lib/paraglide/messages.js';
+	import type { User } from '$lib/data/types';
+
+	let { user }: { user: User } = $props();
+
+	const sidebar = Sidebar.useSidebar();
+	const initials = $derived(
+		user.name
+			.split(' ')
+			.map((n) => n[0])
+			.join('')
+			.toUpperCase()
+			.slice(0, 2)
+	);
+
+	let signOutOpen = $state(false);
+</script>
+
+{#snippet userInfo()}
+	<Avatar.Root class="h-8 w-8 rounded-lg">
+		<Avatar.Image src={user.avatar} alt={user.name} />
+		<Avatar.Fallback class="rounded-lg">{initials}</Avatar.Fallback>
+	</Avatar.Root>
+	<div class="grid flex-1 text-start text-sm leading-tight">
+		<span class="truncate font-semibold">{user.name}</span>
+		<span class="truncate text-xs">{user.email}</span>
+	</div>
+{/snippet}
+
+<Sidebar.Menu>
+	<Sidebar.MenuItem>
+		<DropdownMenu.Root>
+			<DropdownMenu.Trigger>
+				{#snippet child({ props })}
+					<Sidebar.MenuButton
+						size="lg"
+						class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+						{...props}
+					>
+						{@render userInfo()}
+						<ChevronsUpDown class="ms-auto size-4" />
+					</Sidebar.MenuButton>
+				{/snippet}
+			</DropdownMenu.Trigger>
+			<DropdownMenu.Content
+				class="w-(--bits-dropdown-menu-anchor-width) min-w-56 rounded-lg"
+				side={sidebar.isMobile ? 'bottom' : 'right'}
+				align="end"
+				sideOffset={4}
+			>
+				<DropdownMenu.Label class="p-0 font-normal">
+					<div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
+						{@render userInfo()}
+					</div>
+				</DropdownMenu.Label>
+				<DropdownMenu.Separator />
+				<DropdownMenu.Group>
+					<DropdownMenu.Item>
+						<Sparkles />
+						{m.user_upgrade_to_pro()}
+					</DropdownMenu.Item>
+				</DropdownMenu.Group>
+				<DropdownMenu.Separator />
+				<DropdownMenu.Group>
+					<DropdownMenu.Item>
+						{#snippet child({ props })}
+							<a href={localizeHref('/settings/account')} {...props}>
+								<BadgeCheck />
+								{m.nav_account()}
+							</a>
+						{/snippet}
+					</DropdownMenu.Item>
+					<DropdownMenu.Item>
+						{#snippet child({ props })}
+							<a href={localizeHref('/settings')} {...props}>
+								<CreditCard />
+								{m.user_billing()}
+							</a>
+						{/snippet}
+					</DropdownMenu.Item>
+					<DropdownMenu.Item>
+						{#snippet child({ props })}
+							<a href={localizeHref('/settings/notifications')} {...props}>
+								<Bell />
+								{m.nav_notifications()}
+							</a>
+						{/snippet}
+					</DropdownMenu.Item>
+				</DropdownMenu.Group>
+				<DropdownMenu.Separator />
+				<DropdownMenu.Item variant="destructive" onSelect={() => (signOutOpen = true)}>
+					<LogOut />
+					{m.common_sign_out()}
+				</DropdownMenu.Item>
+			</DropdownMenu.Content>
+		</DropdownMenu.Root>
+	</Sidebar.MenuItem>
+</Sidebar.Menu>
+
+<SignOutDialog bind:open={signOutOpen} />

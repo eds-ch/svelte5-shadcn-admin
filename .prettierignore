@@ -1,0 +1,18 @@
+# Package manager
+pnpm-lock.yaml
+
+# Build output
+build/
+dist/
+.svelte-kit/
+
+# Generated code
+src/lib/paraglide/
+src/paraglide/
+
+# Reference materials (external repos, not our code)
+reference/
+docs/
+
+# Temp files
+temp/
