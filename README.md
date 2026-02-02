@@ -1,5 +1,7 @@
 # Shadcn Admin — Svelte 5
 
+**Demo:** [svelte5-shadcn-admin.vercel.app](https://svelte5-shadcn-admin.vercel.app/)
+
 A Svelte 5 / SvelteKit rewrite of [shadcn-admin](https://github.com/satnaing/shadcn-admin) by [@satnaing](https://github.com/satnaing).
 
 The original is a React admin dashboard. This project takes the same pages, the same interactions, and the same UX, and rebuilds everything on top of Svelte 5 and SvelteKit. It is not a mechanical port — React-specific patterns (Context providers, Zustand, TanStack Router, react-hook-form) were dropped in favor of SvelteKit-native equivalents.
